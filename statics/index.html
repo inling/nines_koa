@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="d1">按钮1</button>
+    <button id="d2">按钮2</button>
+    <button id="d3">按钮3</button>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+<script>
+    $('#d1').click(function () {
+        $.ajax({
+            url: "/test1",
+            success: function (result) {
+                console.log(result)
+            }
+        });
+    })
+
+    $('#d2').click(function () {
+        $.ajax({
+            url: "/test2",
+            success: function (result) {
+                console.log(result)
+            }
+        });
+    })
+    $('#d3').click(function () {
+        $.ajax({
+            url: "/test3",
+            success: function (result) {
+                console.log(result)
+            }
+        });
+    })
+</script>
+
+</html>
