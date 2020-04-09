@@ -9,7 +9,11 @@ CREATE TABLE user(
     phone VARCHAR(11),
     email VARCHAR(256),
     userType INT,
+    age INT,
+    gender INT,
+    city VARCHAR(128),
+    signature VARCHAR(256),
     publicKey VARCHAR(1024),
-    privateKey VARCHAR(1024)
+    privateKey VARCHAR(1024),
 );
 

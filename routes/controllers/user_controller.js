@@ -12,7 +12,7 @@ exports.register = async (ctx, next) => {
         let sql = `INSERT INTO user VALUES (NULL, ?, NULL, ?, NULL, 0, ?, ?)`;
         let res = await query(sql, [nickname, phone, publicKey, privateKey], res => {
             if (res.affectedRows > 0) {
-                createUserFolder('./userData/'+nickname)
+                createUserFolder('./userData/' + phone)
                 return {
                     ...CODE_ARRAY.REGISTER_SUCCESS,
                     pk: publicKey
@@ -161,12 +161,12 @@ exports.phoneIsExist = async (ctx, next) => {
     try {
         let { phone } = ctx.query;
         let decodePhone = decodeURIComponent(phone);
-        if(!decodePhone){
+        if (!decodePhone) {
             ctx.body = CODE_ARRAY.FORMAT_ERROR;
             return;
         }
         let sql = `SELECT id FROM user WHERE phone=?`;
-        let res = await query(sql,[decodePhone],res => {
+        let res = await query(sql, [decodePhone], res => {
             if (res.length > 0) {
                 return CODE_ARRAY.PHONE_CHECK.REPEAT
             } else {
