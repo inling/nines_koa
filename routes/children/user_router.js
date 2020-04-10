@@ -11,6 +11,7 @@ router.post('/checkSMS',user_controller.checkSMS);
 router.get('/nickname',user_controller.nickname);
 router.get('/getUserInfo',user_controller.getUserInfo);
 router.get('/phoneIsExist',user_controller.phoneIsExist);
+router.post('/editUserInfo',user_controller.editUserInfo);
 
 
 module.exports = router;

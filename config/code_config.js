@@ -67,6 +67,12 @@ exports.CODE_ARRAY = {
     USERINFO_GET_FAIL: {
         code: 4200, message: '获取用户数据异常'
     },
+    USERINFO_EDIT_SUCCESS: {
+        code: 0, message: '修改用户数据成功'
+    },
+    USERINFO_EDIT_FAIL: {
+        code: 4201, message: '修改用户数据失败'
+    },
 
     /**key相关 */
     KEY_PU_ERR:{

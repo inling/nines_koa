@@ -9,7 +9,7 @@ exports.register = async (ctx, next) => {
     try {
         let { nickname, phone } = ctx.request.body;
         let { publicKey, privateKey } = createKey();
-        let sql = `INSERT INTO user VALUES (NULL, ?, NULL, ?, NULL, 0, ?, ?)`;
+        let sql = `INSERT INTO user VALUES (NULL, ?, NULL, ?, NULL, 0, ?, ?, NULL, NULL, NULL, NULL)`;
         let res = await query(sql, [nickname, phone, publicKey, privateKey], res => {
             if (res.affectedRows > 0) {
                 createUserFolder('./userData/' + phone)
@@ -209,4 +209,30 @@ exports.checkSMS = async (ctx, next) => {
     await next();
 }
 
+/**
+ * 修改用户信息
+ */
+exports.editUserInfo = async (ctx, next) => {
+    try {
+        let token = ctx.headers.authorization;
+        let userInfo = verToken(token);
+
+        let { signature, gender, birthday, location } = ctx.request.body;
+        signature = signature ? signature : "";
+        gender = gender ? gender : "";
+        birthday = birthday ? birthday : "";
+        location = location ? location : "";
+        let sql = `UPDATE user SET signature=?,gender=?,birthday=?,location=? WHERE phone=?`;
+        let res = await query(sql, [signature, gender, birthday, location, userInfo.phone], res => {
+            if (res.affectedRows > 0) {
+                return CODE_ARRAY.USERINFO_EDIT_SUCCESS;
+            } else {
+                return CODE_ARRAY.USERINFO_EDIT_FAIL;
+            }
+        })
+        ctx.body = res;
+    } catch (err) {
+        ctx.body = err;
+    }
+}
 /**v1.0.0 */
