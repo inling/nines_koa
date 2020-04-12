@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { REG } = require('../config/reg_config');
 const { CODE_ARRAY } = require('../config/code_config');
+const query = require('./query');
 exports.checkNick = nickname => {
     let reg1 = new RegExp(REG.NUM_SHORT);
     let reg2 = new RegExp(REG.NUM_LONG);
@@ -37,4 +38,20 @@ exports.createUserFolder = userFolder => {
             })
         }
     })
+}
+
+//创建文集
+exports.addAnth = async (uid, articleName) => {
+    let sql = `INSERT INTO anthology VALUES (NULL, ?, ?)`;
+    let res = await query(sql, [uid, articleName], res => {
+        
+        if (res.affectedRows > 0) {
+            return {
+                ...CODE_ARRAY.ANTH_CREATE.SUCCESS
+            }
+        } else {
+            return CODE_ARRAY.ANTH_CREATE.FAIL;
+        }
+    })
+    return res;
 }

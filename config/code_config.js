@@ -115,7 +115,60 @@ exports.CODE_ARRAY = {
         REPEAT:{
             code: 4600 , message:'手机号已被注册'
         }
+    },
+
+    /**新建文集 */
+    ANTH_CREATE:{
+        SUCCESS:{
+            code: 0, message:'创建成功'
+        },
+        FAIL:{
+            code: 4700, message:'创建失败'
+        }
+    },
+    /**查询文集 */
+    ANTH_QUERY:{
+        SUCCESS:{
+            code: 0, message:'查询文集成功'
+        },
+        FAIL:{
+            code: 4800, message:'创建失败'
+        }
+    },
+    /**新建文章 */
+    ARTICLE_CREATE:{
+        SUCCESS:{
+            code: 0, message:'创建成功'
+        },
+        FAIL:{
+            code: 4900, message:'创建失败'
+        },
+        SET_SUCCESS:{
+            code: 0, message:'设置Text成功'
+        },
+        SET_FAIL:{
+            code: 4901, message:'设置Text失败'
+        }
+    },
+    /**查询文章 */
+    ARTICLE_QUERY:{
+        SUCCESS:{
+            code: 0, message:'查询文章成功'
+        },
+        FAIL:{
+            code: 5000, message:'查询失败'
+        }
+    },
+    /**删除文集 */
+    ANTH_DELETE:{
+        SUCCESS:{
+            code: 0, message:'删除文集成功'
+        },
+        FAIL:{
+            code: 5100, message:'删除失败'
+        }
     }
+
 }
 
 /**v1.0.0 */

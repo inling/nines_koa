@@ -12,7 +12,13 @@ router.get('/nickname',user_controller.nickname);
 router.get('/getUserInfo',user_controller.getUserInfo);
 router.get('/phoneIsExist',user_controller.phoneIsExist);
 router.post('/editUserInfo',user_controller.editUserInfo);
-
+router.post('/getAnthology',user_controller.getAnthology);
+router.post('/addAnthology',user_controller.addAnthology);
+router.post('/deleteAnthology',user_controller.deleteAnthology);
+router.post('/addArticle',user_controller.addArticle);
+router.post('/getArticle',user_controller.getArticle);
+router.post('/getArticleText',user_controller.getArticleText);
+router.post('/setArticleText',user_controller.setArticleText);
 
 module.exports = router;
 

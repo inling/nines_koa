@@ -17,3 +17,17 @@ CREATE TABLE user(
     signature VARCHAR(256)
 );
 
+CREATE TABLE anthology(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    uid INT,
+    anthologyName VARCHAR(128)  
+);
+
+CREATE TABLE article(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    uid INT,
+    anthologyId INT,
+    articleName VARCHAR(128),
+    articleText TEXT 
+);
+

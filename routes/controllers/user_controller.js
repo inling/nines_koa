@@ -3,7 +3,7 @@ const { setToken, verToken } = require('../../utils/token');
 const { CODE_ARRAY } = require('../../config/code_config');
 const { createKey, decrypt, toMD5 } = require('../../utils/key');
 const { sendSms } = require('../../utils/sms');
-const { checkNick, createUserFolder } = require('../../utils/tools');
+const { checkNick, createUserFolder, addAnth } = require('../../utils/tools');
 //用户注册
 exports.register = async (ctx, next) => {
     try {
@@ -12,7 +12,8 @@ exports.register = async (ctx, next) => {
         let sql = `INSERT INTO user VALUES (NULL, ?, NULL, ?, NULL, 0, ?, ?, NULL, NULL, NULL, NULL)`;
         let res = await query(sql, [nickname, phone, publicKey, privateKey], res => {
             if (res.affectedRows > 0) {
-                createUserFolder('./userData/' + phone)
+                createUserFolder('./userData/' + phone);
+                addAnth(res.insertId, '默认');
                 return {
                     ...CODE_ARRAY.REGISTER_SUCCESS,
                     pk: publicKey
@@ -229,6 +230,179 @@ exports.editUserInfo = async (ctx, next) => {
             } else {
                 return CODE_ARRAY.USERINFO_EDIT_FAIL;
             }
+        })
+        ctx.body = res;
+    } catch (err) {
+        ctx.body = err;
+    }
+}
+
+/**
+ * 创建文集
+ */
+exports.addAnthology = async (ctx, next) => {
+    try {
+        let token = ctx.headers.authorization;
+        let userInfo = verToken(token);
+
+        let { anthologyName } = ctx.request.body;
+        let res = await addAnth(userInfo.id, anthologyName);
+        ctx.body = res;
+    } catch (err) {
+        ctx.body = err;
+    }
+}
+/**
+ * 读取文集
+ */
+exports.getAnthology = async (ctx, next) => {
+    try {
+        let token = ctx.headers.authorization;
+        let userInfo = verToken(token);
+
+        let sql = `select * from anthology WHERE uid=?`;
+        let res = await query(sql, [userInfo.id], res => {
+            if (res.length > 0) {
+                return {
+                    anthologyList: res,
+                    ...CODE_ARRAY.ANTH_QUERY.SUCCESS
+                }
+            } else {
+                return {
+                    ...CODE_ARRAY.ANTH_QUERY.FAIL
+                }
+            }
+        });
+        ctx.body = res;
+    } catch (err) {
+        ctx.body = err;
+    }
+}
+
+/**
+ * 删除文集
+ */
+exports.deleteAnthology = async (ctx, next) => {
+    try {
+        let token = ctx.headers.authorization;
+        let userInfo = verToken(token);
+
+        let { anthologyId } = ctx.request.body;
+        let sql = `DELETE from anthology WHERE id=? AND uid=?`;
+        let res = await query(sql, [anthologyId, userInfo.id], res => {
+            if (res.affectedRows > 0) {
+                return {
+                    ...CODE_ARRAY.ANTH_DELETE.SUCCESS
+                }
+            } else {
+                return {
+                    ...CODE_ARRAY.ANTH_DELETE.FAIL
+                }
+            }
+        });
+        ctx.body = res;
+    } catch (err) {
+        ctx.body = err;
+    }
+}
+/**
+ * 添加文章
+ */
+exports.addArticle = async (ctx, next) => {
+    try {
+        let token = ctx.headers.authorization;
+        let userInfo = verToken(token);
+
+        let { anthologyId, articleName } = ctx.request.body;
+        let sql = `INSERT INTO article VALUES (NULL, ?, ?, ?, NULL)`;
+
+        let res = await query(sql, [userInfo.id, anthologyId, articleName], res => {
+            if (res.affectedRows > 0) {
+                return {
+                    ...CODE_ARRAY.ARTICLE_CREATE.SUCCESS
+                }
+            } else {
+                return CODE_ARRAY.ARTICLE_CREATE.FAIL;
+            }
+        })
+        ctx.body = res;
+    } catch (err) {
+        ctx.body = err;
+    }
+}
+
+/**
+ * 获取文章列表
+ */
+exports.getArticle = async (ctx, next) => {
+    try {
+        let token = ctx.headers.authorization;
+        let userInfo = verToken(token);
+
+        let { anthologyId } = ctx.request.body;
+        let sql = `SELECT * FROM article WHERE uid = ? AND anthologyId = ? order by id desc`;
+
+        let res = await query(sql, [userInfo.id, anthologyId], res => {
+            //if (res.length > 0) {
+                return {
+                    articleList:res,
+                    ...CODE_ARRAY.ARTICLE_QUERY.SUCCESS
+                }
+            // } else {
+            //     return CODE_ARRAY.ARTICLE_QUERY.FAIL;
+            // }
+        })
+        ctx.body = res;
+    } catch (err) {
+        ctx.body = err;
+    }
+}
+
+/**
+ * 获取文章内容
+ */
+exports.getArticleText = async (ctx, next) => {
+    try {
+        let token = ctx.headers.authorization;
+        let userInfo = verToken(token);
+
+        let { articleId } = ctx.request.body;
+        let sql = `SELECT articleText FROM article WHERE id = ? `;
+
+        let res = await query(sql, [articleId], res => {
+            return {
+                article:res,
+                ...CODE_ARRAY.ARTICLE_QUERY.SUCCESS
+            }
+        })
+        ctx.body = res;
+    } catch (err) {
+        ctx.body = err;
+    }
+}
+
+/**
+ * 添加文章内容
+ */
+exports.setArticleText = async (ctx, next) => {
+    try {
+        let token = ctx.headers.authorization;
+        let userInfo = verToken(token);
+
+        let { articleId, articleText } = ctx.request.body;
+        let sql = ` UPDATE article SET articleText = ? WHERE id = ?`
+
+        let res = await query(sql, [articleText, articleId], res => {
+            if (res.affectedRows > 0) {
+                return {
+                    ...CODE_ARRAY.ARTICLE_CREATE.SET_SUCCESS
+                }
+            } else {
+                return {
+                    ...CODE_ARRAY.ARTICLE_CREATE.SET_FAIL
+                }
+            }
+
         })
         ctx.body = res;
     } catch (err) {
