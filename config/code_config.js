@@ -167,6 +167,15 @@ exports.CODE_ARRAY = {
         FAIL:{
             code: 5100, message:'删除失败'
         }
+    },
+    /**删除文章 */
+    ARTICLE_DELETE:{
+        SUCCESS:{
+            code: 0, message:'删除文章成功'
+        },
+        FAIL:{
+            code: 5200, message:'删除失败'
+        }
     }
 
 }

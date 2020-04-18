@@ -19,6 +19,7 @@ router.post('/addArticle',user_controller.addArticle);
 router.post('/getArticle',user_controller.getArticle);
 router.post('/getArticleText',user_controller.getArticleText);
 router.post('/setArticleText',user_controller.setArticleText);
+router.post('/deleteArticle',user_controller.deleteArticle);
 
 module.exports = router;
 

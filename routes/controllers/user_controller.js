@@ -390,9 +390,9 @@ exports.setArticleText = async (ctx, next) => {
         let userInfo = verToken(token);
 
         let { articleId, articleText } = ctx.request.body;
-        let sql = ` UPDATE article SET articleText = ? WHERE id = ?`
+        let sql = ` UPDATE article SET articleText = ? WHERE id = ? AND uid =?`
 
-        let res = await query(sql, [articleText, articleId], res => {
+        let res = await query(sql, [articleText, articleId, userInfo.id], res => {
             if (res.affectedRows > 0) {
                 return {
                     ...CODE_ARRAY.ARTICLE_CREATE.SET_SUCCESS
@@ -400,6 +400,35 @@ exports.setArticleText = async (ctx, next) => {
             } else {
                 return {
                     ...CODE_ARRAY.ARTICLE_CREATE.SET_FAIL
+                }
+            }
+
+        })
+        ctx.body = res;
+    } catch (err) {
+        ctx.body = err;
+    }
+}
+
+/**
+ * 删除文章
+ */
+exports.deleteArticle = async (ctx, next) => {
+    try {
+        let token = ctx.headers.authorization;
+        let userInfo = verToken(token);
+
+        let { articleId } = ctx.request.body;
+        let sql = ` DELETE FROM article WHERE id = ? AND uid=?`
+
+        let res = await query(sql, [articleId, userInfo.id], res => {
+            if (res.affectedRows > 0) {
+                return {
+                    ...CODE_ARRAY.ARTICLE_DELETE.SUCCESS
+                }
+            } else {
+                return {
+                    ...CODE_ARRAY.ARTICLE_DELETE.FAIL
                 }
             }
 
