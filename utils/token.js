@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { TOKEN_SECRET } = require('../config/serect_config');
 
 exports.setToken = payload => {
-    return jwt.sign(payload, TOKEN_SECRET, { expiresIn: '1h' });
+    return jwt.sign(payload, TOKEN_SECRET, { expiresIn: '168h' });
 }
 
 exports.verToken = token => {

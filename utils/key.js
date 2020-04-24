@@ -29,7 +29,7 @@ exports.decrypt = (privateKey, data) => {
  * 转换md5
  */
 exports.toMD5 = (password) => {
-    console.log(password)
+    //console.log(password)
     let m = crypto.createHash('md5');
     m.update(password, 'utf8');
     return m.digest('hex').toUpperCase();
