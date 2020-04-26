@@ -4,8 +4,8 @@ exports.sendSms = (iphone, param, callback) => {
   const Core = require('@alicloud/pop-core');
 
   let client = new Core({
-    accessKeyId: 'LTAI4Fq2TgkusgESmGksdWuC',
-    accessKeySecret: '4wYD6jVnhjyA3P6K7MrSrNjnoJVMCn',
+    accessKeyId: '',
+    accessKeySecret: '',
     endpoint: 'https://dysmsapi.aliyuncs.com',
     apiVersion: '2017-05-25'
   });
