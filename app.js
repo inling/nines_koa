@@ -33,7 +33,7 @@ app.use(session({ maxAge: 300000}, app));  // maxAge--cookie的过期时间
 //应用路由模块
 app.use(routes.routes(), routes.allowedMethods())
 
-app.listen(3001, () => {
+app.listen(442, () => {
   console.log('启动成功')
 });
 

@@ -9,7 +9,7 @@ exports.register = async (ctx, next) => {
     try {
         let { nickname, phone } = ctx.request.body;
         let { publicKey, privateKey } = createKey();
-        let sql = `INSERT INTO user VALUES (NULL, ?, NULL, ?, NULL, 0, ?, ?, NULL, NULL, NULL, NULL)`;
+        let sql = `INSERT INTO user VALUES (NULL, ?, NULL, ?, NULL, 0, ?, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL)`;
         let res = await query(sql, [nickname, phone, publicKey, privateKey], res => {
             if (res.affectedRows > 0) {
                 createUserFolder('./userData/' + phone);
@@ -314,7 +314,7 @@ exports.addArticle = async (ctx, next) => {
         let userInfo = verToken(token);
 
         let { anthologyId, articleName } = ctx.request.body;
-        let sql = `INSERT INTO article VALUES (NULL, ?, ?, ?, NULL)`;
+        let sql = `INSERT INTO article VALUES (NULL, ?, ?, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL)`;
 
         let res = await query(sql, [userInfo.id, anthologyId, articleName], res => {
             if (res.affectedRows > 0) {
