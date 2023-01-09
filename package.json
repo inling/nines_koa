@@ -12,7 +12,7 @@
     "@alicloud/pop-core": "^1.7.9",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.3.0",
-    "koa-jwt": "^3.6.0",
+    "koa-jwt": "^4.0.4",
     "koa-router": "^8.0.8",
     "koa-session": "^5.13.1",
     "koa-static": "^5.0.0",
